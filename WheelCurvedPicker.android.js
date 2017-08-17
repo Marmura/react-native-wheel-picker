@@ -7,9 +7,10 @@ import {
   ColorPropType,
   requireNativeComponent,
 } from 'react-native';
+const createReactClass = require('create-react-class');
 
-class WheelCurvedPicker extends Component {
-  static propTypes = {
+const WheelCurvedPicker = createReactClass({
+  propTypes: {
     ...View.propTypes,
     data: PropTypes.array,
     
@@ -26,24 +27,18 @@ class WheelCurvedPicker extends Component {
     selectedValue: PropTypes.any,
     
     selectedIndex: PropTypes.number,
-  };
+  },
   
-  static defaultProps = {
+  defaultProps: {
     itemStyle: {color: 'white', fontSize: 26},
     itemSpace: 20,
-  };
+  },
   
-  constructor(props) {
-    super(props);
-    this.state = this._stateFromProps(this.props);
-    this._onValueChange = this._onValueChange.bind(this);
-  }
+  getInitialState: function() {
+    return this._stateFromProps(this.props);
+  },
   
-  componentWillReceiveProps(nextProps) {
-    this.setState(this._stateFromProps(nextProps));
-  }
-  
-  _stateFromProps(props) {
+  _stateFromProps: function(props) {
     let selectedIndex = 0;
     let items = [];
     
@@ -58,15 +53,15 @@ class WheelCurvedPicker extends Component {
     const textColor = props.itemStyle.color;
     
     return {selectedIndex, items, textSize, textColor};
-  }
+  },
   
-  _onValueChange(e) {
+  _onValueChange: function(e) {
     if (this.props.onValueChange) {
       this.props.onValueChange(e.nativeEvent.data);
     }
-  }
+  },
   
-  render() {
+  render: function() {
     return (
       <WheelCurvedPickerNative {...this.props}
                                onValueChange={this._onValueChange}
@@ -78,12 +73,11 @@ class WheelCurvedPicker extends Component {
       />
     );
   }
-}
+});
 
-const WheelCurvedPickerNative = requireNativeComponent('WheelCurvedPicker',
-  WheelCurvedPicker);
+const WheelCurvedPickerNative = requireNativeComponent('WheelCurvedPicker', WheelCurvedPicker);
 
-class Item extends Component {
+WheelCurvedPicker.Item = class extends Component {
   static propTypes = {
     value: PropTypes.any,
     label: PropTypes.string,
@@ -92,6 +86,6 @@ class Item extends Component {
   render() {
     return null;
   }
-}
+};
 
-export default {WheelCurvedPicker, Item};
+module.exports = WheelCurvedPicker;
