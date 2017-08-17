@@ -29,11 +29,6 @@ const WheelCurvedPicker = createReactClass({
     selectedIndex: PropTypes.number,
   },
   
-  defaultProps: {
-    itemStyle: {color: 'white', fontSize: 26},
-    itemSpace: 20,
-  },
-  
   getInitialState: function() {
     return this._stateFromProps(this.props);
   },
@@ -74,6 +69,11 @@ const WheelCurvedPicker = createReactClass({
     );
   }
 });
+
+WheelCurvedPicker.defaultProps = {
+  itemStyle: {color: 'white', fontSize: 26},
+  itemSpace: 20,
+};
 
 const WheelCurvedPickerNative = requireNativeComponent('WheelCurvedPicker', WheelCurvedPicker);
 
